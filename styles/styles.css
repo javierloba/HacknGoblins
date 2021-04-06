@@ -67,3 +67,24 @@ img {
     max-width: 100%;
     display: block;
 }
+
+/* General settings */
+
+html, body {
+	height: 100vh;
+	overflow: hidden;
+	font-family: sans-serif;
+}
+
+main {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+h1 {
+	font-size: 4rem;
+	color: white;
+}

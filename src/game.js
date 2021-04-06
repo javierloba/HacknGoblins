@@ -1,0 +1,3 @@
+// Intern logics
+
+class Game {}
