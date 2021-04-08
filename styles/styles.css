@@ -41,6 +41,20 @@ h1 {
     cursor: pointer;
 }
 
+.game-over-button {
+    position: absolute;
+    color: white;
+    background: red;
+    border-radius: 3%;
+    border: none;
+    width: 120px;
+    height: 40px;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
 .back-button {
     position: absolute;
     color: white;

@@ -1,28 +1,52 @@
 class Enemy {
-    constructor(canvas){
+    constructor(canvas, speed, enemyImgSrc){
         this.canvas = canvas;
         this.ctx = this.canvas.getContext("2d");
 
-        this.size = 80;
+        this.width = 100;
+        this.height = 100;
         this.x = this.canvas.width + 20;
-        this.y = this.canvas.height/2 - this.size / 2; // Los de a pie salen a la misma altura del player
+        this.y = this.canvas.height * 0.80 - this.height; // Los de a pie salen a la misma altura del player
 
-        this.speed = 5 // Se puede aleatorizar
+        this.speed = speed // Se puede aleatorizar
+
+        this.image = new Image();
+        this.image.src = enemyImgSrc;
+        this.frames = 6;
+        this.framesIndex = 0;
     }
 
-    draw() {
-        this.fillStyle = "#ff6f27";
-        this.ctx.fillRect(this.x, this.y, this.size, this.size);
+    draw(framesCounter) {
+        this.ctx.drawImage(
+            this.image,
+            this.framesIndex * Math.floor(this.image.width / this.frames),
+            0,
+            Math.floor(this.image.width / this.frames),
+            this.image.height,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        )
+        this.animate(framesCounter)
+    }
+
+    animate(framesCounter) {
+        if(framesCounter % 8 === 0) {
+            this.framesIndex++;
+
+            if(this.framesIndex > this.frames - 1) this.framesIndex = 0;
+        }
     }
 
     updatePosition() {
         // Los enemigos vienen desde la derecha hacia la izquierda
         this.x -= this.speed;
-        console.log(`this.x`, this.x)
+        this.draw()
     }
 
     isInsideScreen() {
         //"Está el margen derecho del enemigo más hacia dentro de la pantalla que el margen izquierdo de la pantalla?"
-        return this.x + this.size > 0;
+        return this.x + this.width > 0; // DUDA
     }
 }

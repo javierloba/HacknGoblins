@@ -6,11 +6,15 @@ class Player {
         this.lives = 1; // Player lives
         this.size = 100; // Para un cuadrado,luego se cambia
         this.x = 50; // Empieza a 50px del borde
-        this.y = this.canvas.height/2 - this.size / 2; // Pone al jugador en medio de la pantalla
+        this.y = this.canvas.height * 0.80 - this.size; // Pone al jugador en el "suelo"
+        this.y0 = this.canvas.height * 0.80 - this.size ;
 
-        this.directionX = 0; // 1, 0 o -1, arriba o abajo, ojo que este quiero que salte
-        this.directionY = 0; //AQUÍ HAY ALGO MAL
+        this.directionX = 0; // 1, 0 o -1, arriba o abajo
+        this.directionY = 0;
         this.speed = 5;
+
+        this.vy = 1;
+        this.gravity = 0.4;
     }
 
     setDirection(direction){
@@ -35,8 +39,18 @@ class Player {
     }
 
     updatePosition(){
-        this.y += this.directionY * this.speed;
         this.x += this.directionX * this.speed;
+        this.draw()
+    }
+
+    move() {
+        if(this.y <= this.y0){
+            this.y += this.vy;
+            this.vy += this.gravity;
+        } else {
+            this.vy = 1;
+            this.y = this.y0;
+        }
     }
 
     handleScreenCollision(){
@@ -52,17 +66,12 @@ class Player {
         const playerLeft = this.x;
         const playerRight = this.x + this.size;
 
-        if(playerBottom >= screenBottom) {
-            this.setDirection("stand"); // PDTE MODIFICAR - SUELO!
-        } else if(playerTop <= screenTop) {
-            this.setDirection("down")
-        } else if (playerLeft <= screenLeft) {
+        if(playerLeft <= screenLeft) {
             this.setDirection("right");
         } else if (playerRight >= screenRight){
+            // if (cambiodepantalla)
             this.setDirection("right"); // NO ESTOY SEGURO, HA DE PASAR DE PANTALLA
-        } else if (playerTop >= playerTop*2) { // SALTO??
-            this.setDirection("down");
-        } // else if (playerLeft >= playerLeft*2) QUIERO PARAR EL MOVIMIENTO CUANDO SE DESPULSE LA TECLA
+        }
 
     }
 
@@ -75,5 +84,28 @@ class Player {
         this.ctx.fillRect(this.x, this.y, this.size, this.size)
     }
 
-    didCollide(enemy) {}
+    didCollide(enemy) {
+        const playerLeft = this.x;
+        const playerRight = this.x + this.size;
+        const playerTop = this.y;
+        const playerBottom = this.y + this.size;
+
+        const enemyLeft = enemy.x;
+        const enemyRight = enemy.x + enemy.width;
+        const enemyTop = enemy.y;
+        const enemyBottom = enemy.y + enemy.height;
+
+        // Comprobamos si el enemigo está "dentro" del player
+        const crossLeft = enemyLeft <= playerRight && enemyLeft >= playerLeft;
+        const crossRight = enemyRight >= playerLeft && enemyRight <= playerRight;
+        const crossBottom = enemyBottom >= playerTop && enemyBottom <= playerBottom;
+        const crossTop = enemyTop <= playerBottom && enemyTop >= playerTop;
+
+        // Y comprobamos porque si no miraría toda la horizontal o toda la vertical
+        if ((crossLeft || crossRight) && (crossTop || crossBottom)){
+            return true;
+        } else {
+            return false
+        }
+    }
 }

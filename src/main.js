@@ -31,6 +31,9 @@ function createSplashScreen() {
         </main>`
     );
 
+    if(gameOverScreen) {
+        removeGameOverScreen();
+    }
     document.body.appendChild(splashScreen); // Append htmlString to splashScreen
 
     // Start button functionality
@@ -38,10 +41,10 @@ function createSplashScreen() {
     startButton.addEventListener("click", startGame);
 
     // Create image
-    const myImage = new Image();
-    myImage.src = "../images/start.png";
+    const startImage = new Image();
+    startImage.src = "../images/start.png";
 
-    myImage.addEventListener('load', () => {
+    startImage.addEventListener('load', () => {
         //Canvas settings
         const canvas = document.getElementById('main-canvas');
         const ctx = canvas.getContext('2d');
@@ -49,7 +52,7 @@ function createSplashScreen() {
         canvas.width = 1200;
         canvas.height = 700;
 
-        ctx.drawImage(myImage, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(startImage, 0, 0, canvas.width, canvas.height);
 
         // Particles
         let particlesArray = [];
@@ -86,7 +89,7 @@ function createSplashScreen() {
 
         init();
         function animate(){
-            ctx.drawImage(myImage, 0, 0, canvas.width, canvas.height);
+            ctx.drawImage(startImage, 0, 0, canvas.width, canvas.height);
             ctx.globalAlpha = 0.05;
             ctx.fillStyle = 'rgb(0, 0, 0)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -121,13 +124,12 @@ function createGameScreen() {
             </div>
             <button class="back-button">To title</button>
             <div class="canvas-container">
-                <canvas></canvas>
+                <canvas width="1200" height="700"></canvas>
             </div>
         </main>`
         );
 
     document.body.appendChild(gameScreen); // Append htmlString to gameScreen
-    
     return gameScreen; //
 };
 function removeGameScreen() {
@@ -149,8 +151,89 @@ function removeBossScreen() {};
 
 // ==== Game over screen ====
 
-function createGameOverScreen() {};
-function removeGameOverScreen() {};
+function createGameOverScreen() {
+
+    // HTML string for buildDom
+    gameOverScreen = buildDom(
+        `<main>
+        <canvas id="main-canvas" width="1200" height="700"></canvas>
+        <h1>GAME OVER</h1>
+        <button class="game-over-button">TRY AGAIN</button>
+        </main>`
+    );
+
+    document.body.appendChild(gameOverScreen); // Append htmlString to GameOverScreen
+
+    // Start button functionality
+    const gameOverButton = gameOverScreen.querySelector(".game-over-button");
+    gameOverButton.addEventListener("click", createSplashScreen);
+
+    // Create image
+    const gameOverImage = new Image();
+    gameOverImage.src = "../images/game-over.png";
+
+    gameOverImage.addEventListener('load', () => {
+        //Canvas settings
+        const canvas = document.getElementById('main-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = 1200;
+        canvas.height = 700;
+
+        ctx.drawImage(gameOverImage, 0, 0, canvas.width, canvas.height);
+
+        // Particles
+        let particlesArray = [];
+        const numberOfParticles = 5000;
+
+        class Particle {
+            constructor(){
+                this.x = Math.random()*canvas.width;
+                this.y = Math.random()*canvas.width;
+                this.speed = 0;
+                this.velocity = Math.random() * 3.5;
+                this.size = Math.random() * 1.5 + 1;
+            }
+            update(){
+                this.y += this.velocity;
+                if (this.y >= canvas.height) {
+                    this.y = 0;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw(){
+                ctx.beginPath();
+                ctx.fillStyle = 'white';
+                ctx.arc(this.x, this.y, this.size, 10, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init(){
+            for (let i = 0; i < numberOfParticles; i++){
+                particlesArray.push(new Particle)
+            }
+        }
+
+        init();
+        function animate(){
+            ctx.drawImage(gameOverImage, 0, 0, canvas.width, canvas.height);
+            ctx.globalAlpha = 0.05;
+            ctx.fillStyle = 'rgb(0, 0, 0)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for(let i = 0; i < particlesArray.length; i++){
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    });
+}
+
+function removeGameOverScreen() {
+    gameOverScreen.remove()
+};
 
 // ==== Win screen ====
 
@@ -166,4 +249,7 @@ function startGame() {
     game.gameScreen = gameScreen;
     game.start();
 };
-function endGame() {}
+function endGame(score) {
+    removeGameScreen();
+    createGameOverScreen();
+}
