@@ -13,6 +13,12 @@ class Game {
         this.scoreElement = undefined;
 
         this.framesCounter = 0;
+        this.gameImage = new Image();
+        this.gameImage.src = "images/fondo-game.png";
+
+        this.playerKeys = {
+            SPACE: 32
+        }
     }
 
     // Create ctx, player and start canvas loop
@@ -24,13 +30,16 @@ class Game {
         this.canvas = this.gameScreen.querySelector("canvas");
         this.ctx = this.canvas.getContext("2d");
 
+        this.ctx.drawImage(this.gameImage, 0, 0, this.canvas.width, this.canvas.height);
+
         // Set the canvas dimensions
         this.canvasContainer = this.gameScreen.querySelector(".canvas-container");
         this.containerWidth = this.canvasContainer.clientWidth;
         this.containerHeight = this.canvasContainer.clientHeight;
         this.canvas.setAttribute("width", this.containerWidth);
         this.canvas.setAttribute("height", this.containerHeight);
-        this.player = new Player(this.canvas);
+
+        this.player = new Player(this.canvas, "../images/minotaur.png", this.playerKeys);
 
         function handleKeyDown(event) {
             if (event.key === "ArrowUp") {
@@ -78,7 +87,8 @@ class Game {
             // Limpiar canvas
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             // Dibujar de nuevo
-            this.player.draw();
+            this.ctx.drawImage(this.gameImage, 0, 0, this.canvas.width, this.canvas.height);
+            this.player.draw(this.framesCounter);
             this.enemies.forEach((enemy) => {
                 enemy.draw(this.framesCounter);
             });
@@ -92,7 +102,7 @@ class Game {
     }
 
     checkCollisions(){
-        this.enemies.forEach((enemy) => {
+        this.enemies.forEach((enemy ,enemyIndex) => {
             if (this.player.didCollide(enemy)) {
                 this.player.removeLife();
 
@@ -103,6 +113,12 @@ class Game {
                 this.gameOver();
                 }
             }
+            this.player.bullets.forEach((bullet, bulletIndex) => {
+                if(enemy.didCollide(bullet)) {
+                    this.enemies.splice(enemyIndex, 1)
+                    this.player.bullets.splice(bulletIndex, 1)
+                }
+            })
         });
     }
     gameOver(){

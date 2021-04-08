@@ -3,7 +3,7 @@ class Enemy {
         this.canvas = canvas;
         this.ctx = this.canvas.getContext("2d");
 
-        this.width = 100;
+        this.width = 120;
         this.height = 100;
         this.x = this.canvas.width + 20;
         this.y = this.canvas.height * 0.80 - this.height; // Los de a pie salen a la misma altura del player
@@ -29,6 +29,31 @@ class Enemy {
             this.height
         )
         this.animate(framesCounter)
+    }
+
+    didCollide(bullet) {
+        const enemyLeft = this.x + 50;
+        const enemyRight = this.x + this.width - 50;
+        const enemyTop = this.y;
+        const enemyBottom = this.y + this.height - 50;
+
+        const bulletLeft = bullet.x + 30;
+        const bulletRight = bullet.x + bullet.width - 30;
+        const bulletTop = bullet.y + 30;
+        const bulletBottom = bullet.y + bullet.height - 30;
+
+        // Comprobamos si el enemigo está "dentro" del enemy
+        const crossLeft = bulletLeft <= enemyRight && bulletLeft >= enemyLeft;
+        const crossRight = bulletRight >= enemyLeft && bulletRight <= enemyRight;
+        const crossBottom = bulletBottom >= enemyTop && bulletBottom <= enemyBottom;
+        const crossTop = bulletTop <= enemyBottom && bulletTop >= enemyTop;
+
+        // Y comprobamos porque si no miraría toda la horizontal o toda la vertical
+        if ((crossLeft || crossRight) && (crossTop || crossBottom)){
+            return true;
+        } else {
+            return false
+        }
     }
 
     animate(framesCounter) {
