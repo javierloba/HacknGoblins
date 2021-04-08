@@ -47,7 +47,7 @@ h1 {
     background: red;
     border-radius: 3%;
     border: none;
-    width: 120px;
+    width: 150px;
     height: 40px;
     top: 60%;
     left: 50%;
@@ -82,4 +82,10 @@ span {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
+}
+
+.game-score {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

@@ -66,9 +66,9 @@ class Game {
         const loop = () => {
             this.framesCounter++;
 
-            if (this.enemies.length < 4) {
+            if (this.enemies.length < 20) {
                 if(Math.random() > 0.95) { // Con esto podremos hacer un selector de dificultad (level)
-                    const newEnemy = new Enemy(this.canvas, 5, "../images/goblinRun.png")
+                    const newEnemy = new Enemy(this.canvas, 8, "../images/goblinRun.png")
                     this.enemies.push(newEnemy)
                 }
             }
@@ -79,7 +79,7 @@ class Game {
             this.player.updatePosition();
             this.player.move();
             this.player.handleScreenCollision()
-            // 
+            //
             this.enemies = this.enemies.filter((enemy) => {
                 enemy.updatePosition();
                 return enemy.isInsideScreen()

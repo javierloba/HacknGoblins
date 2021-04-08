@@ -119,10 +119,8 @@ function createGameScreen() {
                 <img id="key" src="" alt="">
             </div>
             <div class="score">
-            <span class="label">Score:</span>
             <span class="value"></span>
             </div>
-            <button class="back-button">To title</button>
             <div class="canvas-container">
                 <canvas width="1200" height="700"></canvas>
             </div>
@@ -130,19 +128,12 @@ function createGameScreen() {
         );
 
     document.body.appendChild(gameScreen); // Append htmlString to gameScreen
+
     return gameScreen; //
 };
 function removeGameScreen() {
     gameScreen.remove()
 };
-
-
-
-
-
-
-
-
 
 // ==== Boss screen ====
 
@@ -151,13 +142,14 @@ function removeBossScreen() {};
 
 // ==== Game over screen ====
 
-function createGameOverScreen() {
+function createGameOverScreen(score) {
 
     // HTML string for buildDom
     gameOverScreen = buildDom(
         `<main>
         <canvas id="main-canvas" width="1200" height="700"></canvas>
         <h1>GAME OVER</h1>
+        <span class="game-score">Your score is ${score}</span>
         <button class="game-over-button">TRY AGAIN</button>
         </main>`
     );
@@ -251,5 +243,5 @@ function startGame() {
 };
 function endGame(score) {
     removeGameScreen();
-    createGameOverScreen();
+    createGameOverScreen(score);
 }

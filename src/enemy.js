@@ -6,7 +6,7 @@ class Enemy {
         this.width = 120;
         this.height = 100;
         this.x = this.canvas.width + 20;
-        this.y = this.canvas.height * 0.80 - this.height; // Los de a pie salen a la misma altura del player
+        this.y = this.canvas.height * 0.82 - this.height; // Los de a pie salen a la misma altura del player
 
         this.speed = speed // Se puede aleatorizar
 

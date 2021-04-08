@@ -5,12 +5,12 @@ class Player {
 
         this.lives = 1; // Player lives
 
-        this.width = 150;
-        this.height = 150;
+        this.width = 180;
+        this.height = 180;
 
         this.x = 50; // Empieza a 50px del borde
-        this.y = this.canvas.height * 0.80 - this.height; // Pone al jugador en el "suelo"
-        this.y0 = this.canvas.height * 0.80 - this.height ;
+        this.y = this.canvas.height * 0.85 - this.height; // Pone al jugador en el "suelo"
+        this.y0 = this.canvas.height * 0.85 - this.height ;
 
         this.directionX = 0; // 1, 0 o -1, arriba o abajo
         this.directionY = 0;
@@ -147,7 +147,7 @@ class Player {
     shoot() {
         document.addEventListener('keydown', (e) => {
             if (e.keyCode === this.keys.SPACE) {
-                this.bullets.push(new Bullet(this.ctx, 10, this.x, this.y, this.width, this.height, this.y0))
+                this.bullets.push(new Bullet(this.ctx, 10, this.x, this.y, this.width, this.height, this.y0 - 50))
             }
         })
     }
