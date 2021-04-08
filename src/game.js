@@ -23,16 +23,36 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
 
         // Set the canvas dimensions
-        this.canvasContainer = this.gameScreen.querySelector(".canvas-container")
+        this.canvasContainer = this.gameScreen.querySelector(".canvas-container");
         this.containerWidth = this.canvasContainer.clientWidth;
-        this.clientHeight = this.canvasContainer.clientHeight;
+        this.containerHeight = this.canvasContainer.clientHeight;
         this.canvas.setAttribute("width", this.containerWidth);
         this.canvas.setAttribute("height", this.containerHeight);
+        this.player = new Player(this.canvas);
 
-        console.log(this.containerWidth)
-        //this.player = new Player();
+        function handleKeyDown(event) {
+            if (event.key === "ArrowUp") {
+                this.player.setDirection("up")
+            } else if (event.key === "ArrowDown") {
+                this.player.setDirection("down")
+            } else if (event.key === "ArrowLeft") {
+                this.player.setDirection("left")
+            } else if (event.key === "ArrowRight") {
+                this.player.setDirection("right")
+            }
+        };
+
+        const boundHandleKeyDown = handleKeyDown.bind(this);
+
+        document.body.addEventListener("keydown", boundHandleKeyDown)
     }
-    startLoop(){}
+
+    startLoop(){
+        if(Math.random() > ) {
+            const newEnemy = new Enemy(this.canvas, 5)
+            this.enemies.push(newEnemy)
+        }
+    }
     checkCollisions(){}
     gameOver(){}
     updateGameStats(){}

@@ -127,6 +127,7 @@ function createGameScreen() {
         );
 
     document.body.appendChild(gameScreen); // Append htmlString to gameScreen
+    
     return gameScreen; //
 };
 function removeGameScreen() {

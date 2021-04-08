@@ -8,30 +8,35 @@ class Player {
         this.x = 50; // Empieza a 50px del borde
         this.y = this.canvas.height/2 - this.size / 2; // Pone al jugador en medio de la pantalla
 
-        this.direction.x = 0; // 1, 0 o -1, arriba o abajo, ojo que este quiero que salte
-        this.direction.y = 0;
+        this.directionX = 0; // 1, 0 o -1, arriba o abajo, ojo que este quiero que salte
+        this.directionY = 0; //AQUÍ HAY ALGO MAL
         this.speed = 5;
     }
 
     setDirection(direction){
-        // No me da la cabeza para hacer un switch ahora
-        if (direction === "up") {
-            this.direction.y = -1;
-        } else if (direction === "down") {
-            this.direction.y = 1; // Está en el suelo, no? agacharse?
-        } else if (direction === "left") {
-            this.direction.x = -1;
-        } else if (direction === "right") {
-            this.direction.x = 1
-        } else if (direction === "stand") {
-            this.direction.x = 0;
-            this.direction.y = 0; // Esto no se si está bien, linea 50!!!!
+        switch (direction) {
+            case "up":
+                this.directionY = -1;
+                break;
+            case "down":
+                this.directionY = 1;
+                break;
+            case "left":
+                this.directionX = -1;
+                break;
+            case "right":
+                this.directionX = 1;
+                break;
+            case "stand":
+                this.directionX = 0;
+                this.directionY = 0;
+                break;
         }
     }
 
     updatePosition(){
-        this.y += this.direction.y * this.speed;
-        this.x += this.direction.x * this.speed;
+        this.y += this.directionY * this.speed;
+        this.x += this.directionX * this.speed;
     }
 
     handleScreenCollision(){
