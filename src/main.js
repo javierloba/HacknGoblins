@@ -42,7 +42,7 @@ function createSplashScreen() {
 
     // Create image
     const startImage = new Image();
-    startImage.src = "../images/start.png";
+    startImage.src = "images/start.png";
 
     startImage.addEventListener('load', () => {
         //Canvas settings
@@ -162,7 +162,7 @@ function createGameOverScreen(score) {
 
     // Create image
     const gameOverImage = new Image();
-    gameOverImage.src = "../images/game-over.png";
+    gameOverImage.src = "images/game-over.png";
 
     gameOverImage.addEventListener('load', () => {
         //Canvas settings

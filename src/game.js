@@ -39,7 +39,7 @@ class Game {
         this.canvas.setAttribute("width", this.containerWidth);
         this.canvas.setAttribute("height", this.containerHeight);
 
-        this.player = new Player(this.canvas, "../images/minotaur.png", this.playerKeys);
+        this.player = new Player(this.canvas, "images/minotaur.png", this.playerKeys);
 
         function handleKeyDown(event) {
             if (event.key === "ArrowUp") {
@@ -68,7 +68,7 @@ class Game {
 
             if (this.enemies.length < 20) {
                 if(Math.random() > 0.95) { // Con esto podremos hacer un selector de dificultad (level)
-                    const newEnemy = new Enemy(this.canvas, 8, "../images/goblinRun.png")
+                    const newEnemy = new Enemy(this.canvas, 8, "images/goblinRun.png")
                     this.enemies.push(newEnemy)
                 }
             }
